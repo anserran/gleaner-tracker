@@ -55,4 +55,44 @@ public class InputTrace extends Trace {
 		this.value3 = value3;
 		this.extra = extra;
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getContext() {
+		return context;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public String getDevice() {
+		return device;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public Integer getButton() {
+		return button;
+	}
+
+	public Float getValue1() {
+		return value1;
+	}
+
+	public Float getValue2() {
+		return value2;
+	}
+
+	public Float getValue3() {
+		return value3;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
 }

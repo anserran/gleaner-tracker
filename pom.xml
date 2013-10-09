@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.e-ucm.gleaner</groupId>
 	<artifactId>base</artifactId>
-	<version>0.1</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<!-- ===================================================================== -->
 	<!-- PROJECT INFO -->
 	<!-- ===================================================================== -->
-	<name>GLEANER: Game Learning ANalytics for Educational Research</name>
+	<name>Gleaner Tracker</name>
 	<description>
-		GLEANER is a complete framework to collect and analyze game statistics.
+		Gleaner tracker implementation
 	</description>
-	<url>http://glas.e-ucm.es</url>
+	<url>http://github.com/anserran/gleaner-tracker</url>
 	<inceptionYear>2012</inceptionYear>
 	<licenses>
 		<license>
@@ -24,7 +24,7 @@
 	</licenses>
 	<issueManagement>
 		<system>github</system>
-		<url>https://github.com/anserran/gleaner/issues</url>
+		<url>https://github.com/anserran/gleaner-tracker/issues</url>
 	</issueManagement>
 	<organization>
 		<name>e-UCM Research Team</name>
@@ -33,7 +33,7 @@
 	<developers>
 		<developer>
 			<id>anserran</id>
-			<name>Angel Serrano Laguna</name>
+			<name>Ángel Serrano Laguna</name>
 			<email>angelserranolaguna@gmail.com</email>
 			<url>http://www.metafisicainformatica.com/</url>
 			<organization>e-UCM Research Team</organization>
@@ -47,20 +47,6 @@
 		</developer>
 	</developers>
 
-
-	<distributionManagement>
-		<repository>
-			<id>release-repository</id>
-			<name>Release repository</name>
-			<url>file://${project.basedir}/../../gleanerrepository/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshot-repository</id>
-			<name>Snapshot repository</name>
-			<url>file://${project.parent.basedir}/../../gleanerrepository/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<scm>
 		<connection>scm:git:git://github.com/anserran/gleaner.git</connection>
 		<url>scm:git:git://github.com/anserran/gleaner.git</url>
@@ -69,7 +55,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<gwt.version>2.4.0</gwt.version>
+		<gwt.version>2.5.0</gwt.version>
 		<junit.version>4.10</junit.version>
 	</properties>
 
@@ -153,6 +139,21 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<!-- ====================================================================== -->
+	<!-- DISTRIBUTION MANAGEMENT -->
+	<!-- ====================================================================== -->
+	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
 	<!-- ====================================================================== -->
@@ -193,23 +194,6 @@
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-json</artifactId>
 				<version>1.12</version>
-			</dependency>
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-servlet</artifactId>
-				<version>1.12</version>
-			</dependency>
-			<!-- MySQL -->
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>5.1.6</version>
-			</dependency>
-			<!-- Servlets -->
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.3</version>
 			</dependency>
 			<!-- JSON -->
 			<dependency>

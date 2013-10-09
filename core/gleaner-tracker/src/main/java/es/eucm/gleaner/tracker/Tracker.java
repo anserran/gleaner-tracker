@@ -65,12 +65,18 @@ public class Tracker implements ResourceCallback<TrackData>,
 	 */
 	private int retry;
 
+	/**
+	 * If the we are waiting to a response from the server
+	 */
+	private boolean connecting;
+
 	public Tracker(RequestHelper requestHelper) {
 		this.requestHelper = requestHelper;
 		this.inputTraces = new TracesQueue<InputTrace>(requestHelper, this);
 		this.logicTraces = new TracesQueue<LogicTrace>(requestHelper, this);
 		this.errors = 0;
 		this.tracking = true;
+		this.connecting = false;
 	}
 
 
@@ -137,14 +143,14 @@ public class Tracker implements ResourceCallback<TrackData>,
 	/**
 	 * @return Returns the logic traces queue
 	 */
-	public TracesQueue getLogicQueue() {
+	public TracesQueue<LogicTrace> getLogicQueue() {
 		return logicTraces;
 	}
 
 	/**
 	 * @return Returns the input traces queue
 	 */
-	public TracesQueue getInputQueue() {
+	public TracesQueue<InputTrace> getInputQueue() {
 		return inputTraces;
 	}
 
@@ -165,10 +171,13 @@ public class Tracker implements ResourceCallback<TrackData>,
 	 * Connects to the server
 	 */
 	private void connect() {
-		String trackUrl = serverUri + RestAPI.START + gameKey;
-		requestHelper.url(trackUrl)
-				.header("Authorization", getAuthToken())
-				.get(this, TrackData.class, false);
+		if (!connecting) {
+			String trackUrl = serverUri + RestAPI.START + gameKey;
+			requestHelper.url(trackUrl)
+					.header("Authorization", getAuthToken())
+					.get(this, TrackData.class, false);
+			connecting = true;
+		}
 	}
 
 	/**
@@ -279,6 +288,18 @@ public class Tracker implements ResourceCallback<TrackData>,
 	}
 
 	/**
+	 * Tracks a logic event
+	 *
+	 * @param event  the event identifier. You can use some from {@link es.eucm.gleaner.model.traces.Events}
+	 * @param target the target for the event (e.g. the phase in which happens)
+	 * @param value1 some data for the event
+	 * @param value2 some data for the event
+	 */
+	public void logic(String event, String target, Object value1, Object value2) {
+		logic(event, target, value1, value2, null);
+	}
+
+	/**
 	 * Logs that the game starts
 	 */
 	public void gameStart() {
@@ -332,6 +353,10 @@ public class Tracker implements ResourceCallback<TrackData>,
 		logic(Events.DEATH, context, identifier, x, y);
 	}
 
+	public void score(String context, int score) {
+		logic(Events.SCORE, context, score, null, null);
+	}
+
 	/**
 	 * Stops tracking
 	 */
@@ -344,7 +369,7 @@ public class Tracker implements ResourceCallback<TrackData>,
 	 * Force to send out the traces stored in the local cache
 	 */
 	public void flush() {
-		if (!isReady()){
+		if (!isReady()) {
 			connect();
 		}
 		inputTraces.flush();
@@ -361,6 +386,7 @@ public class Tracker implements ResourceCallback<TrackData>,
 	// Handlers for start tracking
 	@Override
 	public void success(TrackData trackData) {
+		connecting = false;
 		this.trackData = trackData;
 		this.inputTraces.setTrackData(trackData);
 		this.inputTraces.setUrl(this.serverUri + RestAPI.TRACK);
@@ -371,6 +397,7 @@ public class Tracker implements ResourceCallback<TrackData>,
 
 	@Override
 	public void error(Throwable errorMessage) {
+		connecting = false;
 		errors++;
 		retry = RETRIES * errors;
 	}
@@ -397,4 +424,5 @@ public class Tracker implements ResourceCallback<TrackData>,
 		logicTraces.setMaxSize(maxTraces);
 		inputTraces.setMaxSize(maxTraces);
 	}
+
 }
