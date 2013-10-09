@@ -1,0 +1,29 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse #
+.settings/
+*.classpath
+*.project
+
+# Others #
+target/
+*.bat
+
+# Gwt #
+gwt-unitCache
+www-test
+war
+
+.gwt
+release.properties
+
+lostinspace/
+lostinspaceeditor/
+lostinspacerandom/
+# IntelliJ
+*.iml
