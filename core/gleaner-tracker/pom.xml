@@ -17,12 +17,12 @@
 		<dependency>
 			<groupId>es.e-ucm.gleaner</groupId>
 			<artifactId>gleaner-model</artifactId>
-			<version>0.1</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>es.e-ucm.gleaner</groupId>
 			<artifactId>gleaner-network</artifactId>
-			<version>0.1</version>
+            <version>${project.version}</version>
 		</dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
