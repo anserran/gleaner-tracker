@@ -1,4 +1,4 @@
-GLEANER
+GLEANER Tracker
 ====
 
-Game Learning ANalytics for Educational Research
+Provides some client utilities to comunicate with GLEANER.
