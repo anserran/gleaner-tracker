@@ -49,7 +49,6 @@ public class TrackerTest {
 		requestHelper.setResponse(r);
 		requestHelper.setResource(new TrackData("abc"));
 
-
 		tracker.startTracking("000");
 		assertEquals(tracker.getTrackData().getSessionKey(), "abc");
 
@@ -61,10 +60,10 @@ public class TrackerTest {
 		// Send one trace
 		tracker.gameStart();
 		tracker.flush();
-		assertTrue(tracker.tracesPending());
+		assertTrue(tracker.isDone());
 		assertEquals(requestHelper.getTraces(), 1);
 		assertEquals(requestHelper.getPosts(), 1);
-		assertEquals(tracker.getLogicQueue().size(), 0);
+		assertEquals(tracker.getTracesQueue().size(), 0);
 
 		int totalTraces = 0;
 		requestHelper.reset();
@@ -73,16 +72,16 @@ public class TrackerTest {
 			tracker.gameStart();
 			totalTraces++;
 		}
-		assertEquals(tracker.getLogicQueue().size(), maxTraces);
+		assertEquals(tracker.getTracesQueue().size(), maxTraces);
 
 		tracker.gameStart();
 		totalTraces++;
 
-		assertEquals(tracker.getLogicQueue().size(), maxTraces + 1);
+		assertEquals(tracker.getTracesQueue().size(), maxTraces + 1);
 		assertEquals(requestHelper.getTraces(), 0);
 		assertEquals(requestHelper.getPosts(), 0);
 		tracker.flush();
-		assertEquals(tracker.getLogicQueue().size(), 0);
+		assertEquals(tracker.getTracesQueue().size(), 0);
 		assertEquals(requestHelper.getTraces(), totalTraces);
 
 		tracker.setMaxTracesPerQueue(maxTraces);
@@ -97,7 +96,7 @@ public class TrackerTest {
 
 		assertEquals(requestHelper.getTraces(), totalTraces);
 		assertEquals(requestHelper.getPosts(), 2);
-		assertTrue(tracker.tracesPending());
+		assertTrue(tracker.isDone());
 	}
 
 	@Test
@@ -118,7 +117,7 @@ public class TrackerTest {
 			tracker.gameStart();
 			totalTraces++;
 		}
-		assertEquals(tracker.getLogicQueue().size(), maxTraces * 25);
+		assertEquals(tracker.getTracesQueue().size(), maxTraces * 25);
 		tracker.gameStart();
 		totalTraces++;
 		tracker.flush();
@@ -129,13 +128,15 @@ public class TrackerTest {
 		assertEquals(requestHelper.getPosts(), 1);
 		assertEquals(requestHelper.getTraces(), totalTraces);
 		assertEquals(tracker.getTrackData().getSessionKey(), "abc");
-		assertEquals(tracker.getLogicQueue().size(), 0);
+		assertEquals(tracker.getTracesQueue().size(), 0);
 
 		tracker.setMaxTracesPerQueue(10);
 
 		for (int i = 0; i < 1000; i++) {
 			tracker.gameStart();
-			requestHelper.setState(Math.random() > 0.5f ? FakeRequestHelper.BUSY : FakeRequestHelper.NORMAL);
+			requestHelper
+					.setState(Math.random() > 0.5f ? FakeRequestHelper.BUSY
+							: FakeRequestHelper.NORMAL);
 			totalTraces++;
 		}
 		requestHelper.setState(FakeRequestHelper.NORMAL);
