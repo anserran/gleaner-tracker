@@ -18,8 +18,6 @@ public class InputTrace extends Trace {
 		PRESSED, RELEASED, CLICKED, MOVED, DRAGGED, ENTERED, EXITED, WHEEL, FOCUS_GAINED, FOCUS_LOST, DROPPED, START_DRAG, DRAG_ENTERED, DRAG_EXITED, DROPPED_OVER;
 	}
 
-	private String type;
-
 	private String context;
 
 	private String target;
@@ -39,7 +37,7 @@ public class InputTrace extends Trace {
 	private String extra;
 
 	public InputTrace() {
-		type = TYPE;
+		event = TYPE;
 	}
 
 	public InputTrace(String context, String target, String device,
@@ -55,10 +53,6 @@ public class InputTrace extends Trace {
 		this.value2 = value2;
 		this.value3 = value3;
 		this.extra = extra;
-	}
-
-	public String getType() {
-		return type;
 	}
 
 	public String getContext() {

@@ -9,7 +9,7 @@ public class InputTraceJS extends AbstractTraceJS {
 	}
 
 	public final void set(InputTrace trace) {
-		setType(trace.getType());
+		setEvent(trace.getEvent());
 		if (trace.getContext() != null)
 			setContext(trace.getContext());
 		if (trace.getDevice() != null)
@@ -30,8 +30,8 @@ public class InputTraceJS extends AbstractTraceJS {
 			setTarget(trace.getTarget());
 	}
 
-	public native final void setType(String type)/*-{
-													this.type = type;
+	public native final void setEvent(String event)/*-{
+													this.event = event;
 													}-*/;
 
 	public native final void setContext(String context)/*-{
