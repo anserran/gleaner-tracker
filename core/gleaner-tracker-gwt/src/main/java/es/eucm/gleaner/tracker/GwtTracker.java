@@ -17,14 +17,4 @@ public class GwtTracker extends Tracker {
 		rh.addConverter(InputTrace.class, new InputTraceConversor());
 		rh.addConverter(LogicTrace.class, new LogicTraceConversor());
 	}
-
-	@Override
-	public long currentTimeMillis() {
-		return getCurrentTimeMillis();
-	}
-
-	public native final int getCurrentTimeMillis() /*-{
-													return new Date().getTime();
-													}-*/;
-
 }
