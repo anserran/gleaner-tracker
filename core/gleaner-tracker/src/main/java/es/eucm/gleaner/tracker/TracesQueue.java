@@ -80,9 +80,7 @@ public class TracesQueue implements RequestCallback {
 	}
 
 	/**
-	 * Returns true of the tracker has started a session in the server
-	 * 
-	 * @return
+	 * @return true of the tracker has started a session in the server
 	 */
 	public boolean isConnected() {
 		return trackData != null;
@@ -156,12 +154,6 @@ public class TracesQueue implements RequestCallback {
 		}
 	}
 
-	/**
-	 * Sets the track data
-	 * 
-	 * @param trackData
-	 *            track data
-	 */
 	public void setTrackData(TrackData trackData) {
 		this.trackData = trackData;
 	}
@@ -170,7 +162,7 @@ public class TracesQueue implements RequestCallback {
 	public void error(Request request, Throwable throwable) {
 		sending = false;
 		if (currentMaxSize > 0) {
-			// Increase the windows' size, to avoid a lot of sent attempts
+			// Increase the windows' size, to avoid too much attempts
 			currentMaxSize += maxSize;
 		}
 		requestCallback.error(request, throwable);

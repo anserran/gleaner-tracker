@@ -127,15 +127,6 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	}
 
 	/**
-	 * Returns the current time in milliseconds
-	 * 
-	 * @return
-	 */
-	public long currentTimeMillis() {
-		return System.currentTimeMillis();
-	}
-
-	/**
 	 * @return Returns the input traces queue
 	 */
 	public TracesQueue getTracesQueue() {

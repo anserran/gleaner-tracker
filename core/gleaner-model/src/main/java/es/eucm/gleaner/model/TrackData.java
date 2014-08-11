@@ -8,7 +8,6 @@ public class TrackData {
 	private String sessionKey;
 
 	public TrackData() {
-
 	}
 
 	public TrackData(String sessionKey) {
