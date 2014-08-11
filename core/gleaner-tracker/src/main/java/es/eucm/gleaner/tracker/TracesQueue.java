@@ -46,7 +46,8 @@ public class TracesQueue implements RequestCallback {
 	private int lastTraceSentIndex;
 
 	/**
-	 * Index of the last trace sent to the server that has been positively acknowledged by the server
+	 * Index of the last trace sent to the server that has been positively
+	 * acknowledged by the server
 	 */
 	private int lastTraceReceivedIndex;
 
@@ -65,7 +66,8 @@ public class TracesQueue implements RequestCallback {
 	 */
 	private int currentMaxSize;
 
-	public TracesQueue(RequestHelper requestHelper, RequestCallback requestCallback) {
+	public TracesQueue(RequestHelper requestHelper,
+			RequestCallback requestCallback) {
 		this.requestHelper = requestHelper;
 		this.requestCallback = requestCallback;
 		this.storedTraces = new ArrayList<Trace>();
@@ -79,7 +81,7 @@ public class TracesQueue implements RequestCallback {
 
 	/**
 	 * Returns true of the tracker has started a session in the server
-	 *
+	 * 
 	 * @return
 	 */
 	public boolean isConnected() {
@@ -87,11 +89,13 @@ public class TracesQueue implements RequestCallback {
 	}
 
 	/**
-	 * Sets the number of traces that must be stored without sending them to the server.
-	 * When the number of traces exceeds this number, a flush is automatically triggered.
-	 * If maxSize == -1, then traces are not sent automatically
-	 *
-	 * @param maxSize max size
+	 * Sets the number of traces that must be stored without sending them to the
+	 * server. When the number of traces exceeds this number, a flush is
+	 * automatically triggered. If maxSize == -1, then traces are not sent
+	 * automatically
+	 * 
+	 * @param maxSize
+	 *            max size
 	 */
 	public void setMaxSize(int maxSize) {
 		this.maxSize = maxSize;
@@ -100,8 +104,9 @@ public class TracesQueue implements RequestCallback {
 
 	/**
 	 * Sets the url to post the traces
-	 *
-	 * @param url the url
+	 * 
+	 * @param url
+	 *            the url
 	 */
 	public void setUrl(String url) {
 		this.url = url;
@@ -109,12 +114,14 @@ public class TracesQueue implements RequestCallback {
 
 	/**
 	 * Add trace
-	 *
-	 * @param trace the trace to add
+	 * 
+	 * @param trace
+	 *            the trace to add
 	 */
 	public synchronized void add(Trace trace) {
 		storedTraces.add(trace);
-		if (currentMaxSize >= 0 && storedTraces.size() - lastTraceReceivedIndex > currentMaxSize) {
+		if (currentMaxSize >= 0
+				&& storedTraces.size() - lastTraceReceivedIndex > currentMaxSize) {
 			flush();
 		}
 	}
@@ -134,7 +141,9 @@ public class TracesQueue implements RequestCallback {
 	 * Clears the traces, sending them to the server
 	 */
 	public void flush() {
-		if (storedTraces.size() > 0 &&  lastTraceReceivedIndex < storedTraces.size() && isConnected() && !sending) {
+		if (storedTraces.size() > 0
+				&& lastTraceReceivedIndex < storedTraces.size()
+				&& isConnected() && !sending) {
 			sending = true;
 			tracesToSend.clear();
 			for (int i = lastTraceReceivedIndex + 1; i < storedTraces.size(); i++) {
@@ -149,8 +158,9 @@ public class TracesQueue implements RequestCallback {
 
 	/**
 	 * Sets the track data
-	 *
-	 * @param trackData track data
+	 * 
+	 * @param trackData
+	 *            track data
 	 */
 	public void setTrackData(TrackData trackData) {
 		this.trackData = trackData;

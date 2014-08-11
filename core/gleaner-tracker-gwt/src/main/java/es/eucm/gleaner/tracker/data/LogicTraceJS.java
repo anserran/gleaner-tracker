@@ -46,52 +46,52 @@ public class LogicTraceJS extends AbstractTraceJS {
 	}
 
 	public final native void setType(String type) /*-{
-		this.type = type;
-	}-*/;
+													this.type = type;
+													}-*/;
 
 	public final native void setEvent(String event) /*-{
-		this.event = event;
-	}-*/;
+													this.event = event;
+													}-*/;
 
 	public final native void setTarget(String target) /*-{
-		this.target = target;
-	}-*/;
+														this.target = target;
+														}-*/;
 
 	public final native void setValue1(Object value1) /*-{
-		this.value1 = value1;
-	}-*/;
+														this.value1 = value1;
+														}-*/;
 
 	public final native void setValue1Int(int value1) /*-{
-		this.value1 = value1;
-	}-*/;
+														this.value1 = value1;
+														}-*/;
 
 	public final native void setValue1Float(float value1) /*-{
-		this.value1 = value1;
-	}-*/;
+															this.value1 = value1;
+															}-*/;
 
 	public final native void setValue2(Object value2) /*-{
-		this.value2 = value2;
-	}-*/;
+														this.value2 = value2;
+														}-*/;
 
 	public final native void setValue2Int(int value2) /*-{
-		this.value2 = value2;
-	}-*/;
+														this.value2 = value2;
+														}-*/;
 
 	public final native void setValue2Float(float value2) /*-{
-		this.value2 = value2;
-	}-*/;
+															this.value2 = value2;
+															}-*/;
 
 	public final native void setValue3(Object value3) /*-{
-		this.value3 = value3;
-	}-*/;
+														this.value3 = value3;
+														}-*/;
 
 	public final native void setValue3Int(int value3) /*-{
-		this.value3 = value3;
-	}-*/;
+														this.value3 = value3;
+														}-*/;
 
 	public final native void setValue3Float(float value3) /*-{
-		this.value3 = value3;
-	}-*/;
+															this.value3 = value3;
+															}-*/;
 
 	public final LogicTrace getLogicTrace() {
 		LogicTrace trace = new LogicTrace();

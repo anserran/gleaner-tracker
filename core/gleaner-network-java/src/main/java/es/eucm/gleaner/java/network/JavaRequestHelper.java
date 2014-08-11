@@ -28,14 +28,13 @@ public class JavaRequestHelper extends RequestHelper {
 	private static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
-
 	public JavaRequestHelper() {
 		super();
 	}
 
 	@Override
 	public void send(Request request, String uriWithParameters,
-					 RequestCallback callback) {
+			RequestCallback callback) {
 		HttpURLConnection conn = null;
 		BufferedReader stream = null;
 
@@ -83,7 +82,7 @@ public class JavaRequestHelper extends RequestHelper {
 
 			if (stream != null) {
 				String data = null;
-				for (String line; (line = stream.readLine()) != null; ) {
+				for (String line; (line = stream.readLine()) != null;) {
 					data += line + LINE_SEPARATOR;
 				}
 				response.setContent(data);
@@ -113,7 +112,7 @@ public class JavaRequestHelper extends RequestHelper {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <S, T> void get(Request request, String uriWithParameters,
-						   ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
+			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		WebResource r = client.resource(uriWithParameters);
 		WebResource.Builder b = r.accept(ContentType.APPLICATION_JSON);
 		for (Entry<String, String> h : request.getHeaders().entrySet()) {
@@ -157,6 +156,5 @@ public class JavaRequestHelper extends RequestHelper {
 	public String getJsonData(Object element) {
 		return gson.toJson(element);
 	}
-
 
 }

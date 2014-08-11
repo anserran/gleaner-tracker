@@ -4,7 +4,8 @@ import es.eucm.gleaner.gwt.network.converters.AbstractJsonConverter;
 import es.eucm.gleaner.model.TrackData;
 import es.eucm.gleaner.tracker.data.TrackDataJS;
 
-public class TrackDataConversor extends AbstractJsonConverter<TrackData, TrackDataJS>{
+public class TrackDataConversor extends
+		AbstractJsonConverter<TrackData, TrackDataJS> {
 
 	@Override
 	public String getJson(TrackData object) {

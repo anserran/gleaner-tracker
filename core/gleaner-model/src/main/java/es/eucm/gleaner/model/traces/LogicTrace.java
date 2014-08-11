@@ -26,7 +26,8 @@ public class LogicTrace extends Trace {
 		this.type = TYPE;
 	}
 
-	public LogicTrace(String event, String target, Object value1, Object value2, Object value3) {
+	public LogicTrace(String event, String target, Object value1,
+			Object value2, Object value3) {
 		this();
 		this.event = event;
 		this.target = target;

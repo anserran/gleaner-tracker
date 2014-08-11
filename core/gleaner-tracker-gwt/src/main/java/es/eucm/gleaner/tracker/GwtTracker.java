@@ -24,7 +24,7 @@ public class GwtTracker extends Tracker {
 	}
 
 	public native final int getCurrentTimeMillis() /*-{
-		return new Date().getTime();
-	}-*/;
+													return new Date().getTime();
+													}-*/;
 
 }

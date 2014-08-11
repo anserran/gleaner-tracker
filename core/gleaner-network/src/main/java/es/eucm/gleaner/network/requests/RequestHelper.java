@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Abstract class that handles all the platform-dependent details of http requests
+ * Abstract class that handles all the platform-dependent details of http
+ * requests
  */
 public abstract class RequestHelper {
 
@@ -23,42 +24,56 @@ public abstract class RequestHelper {
 
 	/**
 	 * Sends an standard request
-	 *
-	 * @param request           the request
-	 * @param uriWithParameters the target uri (with parameters already encoded in it)
-	 * @param callback          the request callback
+	 * 
+	 * @param request
+	 *            the request
+	 * @param uriWithParameters
+	 *            the target uri (with parameters already encoded in it)
+	 * @param callback
+	 *            the request callback
 	 */
 	public abstract void send(Request request, String uriWithParameters,
-							  RequestCallback callback);
+			RequestCallback callback);
 
 	/**
 	 * Performs a request over a resources
-	 *
-	 * @param request           the request
-	 * @param uriWithParameters the target uri (with parameters already encoded in it)
-	 * @param callback          resource callback
-	 * @param clazz             class of the result
-	 * @param isCollection      if the resource is a collection
-	 * @param <S>               class of the resource (after process the response).
-	 * @param <T>               class of the resource (as returned by the server). Could be the same as S or not.
-	 *                          S could be Object, and T could be List<Object>
+	 * 
+	 * @param request
+	 *            the request
+	 * @param uriWithParameters
+	 *            the target uri (with parameters already encoded in it)
+	 * @param callback
+	 *            resource callback
+	 * @param clazz
+	 *            class of the result
+	 * @param isCollection
+	 *            if the resource is a collection
+	 * @param <S>
+	 *            class of the resource (after process the response).
+	 * @param <T>
+	 *            class of the resource (as returned by the server). Could be
+	 *            the same as S or not. S could be Object, and T could be
+	 *            List<Object>
 	 */
 	public abstract <S, T> void get(Request request, String uriWithParameters,
-									ResourceCallback<T> callback, Class<S> clazz, boolean isCollection);
+			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection);
 
 	/**
 	 * Encodes a string in the given charset
-	 *
-	 * @param string  the string to encode
-	 * @param charset the charset
+	 * 
+	 * @param string
+	 *            the string to encode
+	 * @param charset
+	 *            the charset
 	 * @return the string encoded
 	 */
 	public abstract String encode(String string, String charset);
 
 	/**
 	 * Converts the given element into a JSON string representing it
-	 *
-	 * @param element the element
+	 * 
+	 * @param element
+	 *            the element
 	 * @return the JSON string
 	 */
 	public abstract String getJsonData(Object element);
@@ -122,7 +137,7 @@ public abstract class RequestHelper {
 		}
 
 		public <S, T> void get(ResourceCallback<T> callback, Class<S> clazz,
-							   boolean isCollection) {
+				boolean isCollection) {
 			method(Method.GET);
 			RequestHelper.this.get(request, getUriWithParamaters(request),
 					callback, clazz, isCollection);

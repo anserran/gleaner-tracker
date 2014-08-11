@@ -24,31 +24,33 @@ public class FakeRequestHelper extends RequestHelper {
 	}
 
 	@Override
-	public void send(Request request, String uriWithParameters, RequestCallback callback) {
-		switch (state){
-			case NORMAL:
-				Object o = gson.fromJson(request.getEntity(), Object.class);
-				if ( o instanceof ArrayList){
-					traces += ((ArrayList) o).size();
-				}
-				callback.success(request, response);
-				posts++;
-				break;
-			case BUSY:
-				callback.error(request, new Error());
-				break;
+	public void send(Request request, String uriWithParameters,
+			RequestCallback callback) {
+		switch (state) {
+		case NORMAL:
+			Object o = gson.fromJson(request.getEntity(), Object.class);
+			if (o instanceof ArrayList) {
+				traces += ((ArrayList) o).size();
+			}
+			callback.success(request, response);
+			posts++;
+			break;
+		case BUSY:
+			callback.error(request, new Error());
+			break;
 		}
 	}
 
 	@Override
-	public <S, T> void get(Request request, String uriWithParameters, ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
-		switch (state){
-			case NORMAL:
-				callback.success((T)resource);
-				break;
-			case BUSY:
-				callback.error(new Error());
-				break;
+	public <S, T> void get(Request request, String uriWithParameters,
+			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
+		switch (state) {
+		case NORMAL:
+			callback.success((T) resource);
+			break;
+		case BUSY:
+			callback.error(new Error());
+			break;
 		}
 	}
 
@@ -82,7 +84,7 @@ public class FakeRequestHelper extends RequestHelper {
 		return traces;
 	}
 
-	public void reset(){
+	public void reset() {
 		posts = 0;
 		traces = 0;
 	}

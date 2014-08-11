@@ -157,10 +157,10 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 */
 	private void connect() {
 		if (!connecting) {
+			connecting = true;
 			String trackUrl = serverUri + RestAPI.START + gameKey;
 			requestHelper.url(trackUrl).header("Authorization", getAuthToken())
 					.get(this, TrackData.class, false);
-			connecting = true;
 		}
 	}
 
@@ -398,8 +398,8 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 * @return Returns true whether there are traces pending to be sent to the
 	 *         server
 	 */
-	public boolean tracesPending() {
-		return !traces.isDone();
+	public boolean isDone() {
+		return traces.isDone();
 	}
 
 	// Handlers for start tracking

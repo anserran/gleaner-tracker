@@ -42,8 +42,9 @@ public class InputTrace extends Trace {
 		type = TYPE;
 	}
 
-	public InputTrace(String context, String target, String device, String action, Integer button, Float value1,
-					  Float value2, Float value3, String extra) {
+	public InputTrace(String context, String target, String device,
+			String action, Integer button, Float value1, Float value2,
+			Float value3, String extra) {
 		this();
 		this.context = context;
 		this.target = target;

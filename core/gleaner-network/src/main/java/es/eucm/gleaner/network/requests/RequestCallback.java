@@ -7,17 +7,21 @@ public interface RequestCallback {
 
 	/**
 	 * Triggered when the request produces an error
-	 *
-	 * @param request   the original request
-	 * @param throwable the error
+	 * 
+	 * @param request
+	 *            the original request
+	 * @param throwable
+	 *            the error
 	 */
 	void error(Request request, Throwable throwable);
 
 	/**
 	 * Triggered when the request success
-	 *
-	 * @param request  the original request
-	 * @param response the response to te request
+	 * 
+	 * @param request
+	 *            the original request
+	 * @param response
+	 *            the response to te request
 	 */
 	void success(Request request, Response response);
 

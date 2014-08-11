@@ -9,5 +9,4 @@ public class JerseyTracker extends Tracker {
 		super(new JavaRequestHelper());
 	}
 
-
 }

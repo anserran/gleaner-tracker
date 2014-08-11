@@ -41,18 +41,19 @@ public class GwtRequestHelper extends RequestHelper {
 
 	/**
 	 * Adds a json converter
-	 *
-	 * @param clazz     the clazz of the original object
-	 * @param converter the converter for the given class
+	 * 
+	 * @param clazz
+	 *            the clazz of the original object
+	 * @param converter
+	 *            the converter for the given class
 	 */
-	public void addConverter(Class<?> clazz,
-							 JsonConverter<?, ?> converter) {
+	public void addConverter(Class<?> clazz, JsonConverter<?, ?> converter) {
 		converters.put(clazz, converter);
 	}
 
 	@Override
 	public void send(Request request, String uriWithParameters,
-					 RequestCallback callback) {
+			RequestCallback callback) {
 		if (!crossDomain) {
 			send2(request, uriWithParameters, new GeneralRequestCallback(
 					request, callback));
@@ -63,11 +64,12 @@ public class GwtRequestHelper extends RequestHelper {
 
 	@Override
 	public <S, T> void get(Request request, String uriWithParameters,
-						   ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
+			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		if (!crossDomain) {
 			request.setHeader(Header.ACCEPT, ContentType.APPLICATION_JSON);
-			send2(request, uriWithParameters, new ResourceRequestCallback<S, T>(
-					callback, clazz, isCollection));
+			send2(request, uriWithParameters,
+					new ResourceRequestCallback<S, T>(callback, clazz,
+							isCollection));
 		} else {
 			sendCrossDomain(uriWithParameters, callback, clazz, isCollection);
 		}
@@ -75,13 +77,16 @@ public class GwtRequestHelper extends RequestHelper {
 
 	/**
 	 * Sends the request (no cross domain)
-	 *
-	 * @param request           the request
-	 * @param uriWithParameters the uri
-	 * @param requestCallback   the callback
+	 * 
+	 * @param request
+	 *            the request
+	 * @param uriWithParameters
+	 *            the uri
+	 * @param requestCallback
+	 *            the callback
 	 */
 	private void send2(Request request, String uriWithParameters,
-					   com.google.gwt.http.client.RequestCallback requestCallback) {
+			com.google.gwt.http.client.RequestCallback requestCallback) {
 		RequestBuilder builder = new RequestBuilder(
 				getMethod(request.getMethod()), uriWithParameters);
 
@@ -100,12 +105,12 @@ public class GwtRequestHelper extends RequestHelper {
 	}
 
 	private void sendCrossDomain(Request request, String uriWithParameters,
-								 RequestCallback callback) {
+			RequestCallback callback) {
 		// XXX sendCrossDomain
 	}
 
 	private <T, S> void sendCrossDomain(String uriWithParameters,
-										ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
+			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		JsonpRequestBuilder builder = new JsonpRequestBuilder();
 		builder.requestObject(uriWithParameters,
 				new RequestAsyncCallback<S, T>(callback, clazz, isCollection));
@@ -117,7 +122,7 @@ public class GwtRequestHelper extends RequestHelper {
 		return URL.encodeQueryString(string);
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public String getJsonData(Object element) {
 		if (element instanceof Collection) {
@@ -166,7 +171,7 @@ public class GwtRequestHelper extends RequestHelper {
 		private RequestCallback requestCallback;
 
 		public GeneralRequestCallback(Request request,
-									  RequestCallback requestCallback) {
+				RequestCallback requestCallback) {
 			this.request = request;
 			this.requestCallback = requestCallback;
 		}
@@ -189,7 +194,7 @@ public class GwtRequestHelper extends RequestHelper {
 
 		@Override
 		public void onError(com.google.gwt.http.client.Request request,
-							Throwable exception) {
+				Throwable exception) {
 			if (requestCallback != null) {
 				requestCallback.error(this.request, exception);
 			}
@@ -207,13 +212,13 @@ public class GwtRequestHelper extends RequestHelper {
 		private boolean isCollection;
 
 		public ResourceRequestCallback(ResourceCallback<T> callback,
-									   Class<S> clazz, boolean isCollection) {
+				Class<S> clazz, boolean isCollection) {
 			this.callback = callback;
 			this.clazz = clazz;
 			this.isCollection = isCollection;
 		}
 
-		@SuppressWarnings({"unchecked", "rawtypes"})
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public void onResponseReceived(
 				com.google.gwt.http.client.Request request,
@@ -226,7 +231,8 @@ public class GwtRequestHelper extends RequestHelper {
 					Object o;
 					if (isCollection) {
 						Collection<S> collection = new ArrayList<S>();
-						JavaScriptObject jsObject = JsonUtils.safeEval(response.getText());
+						JavaScriptObject jsObject = JsonUtils.safeEval(response
+								.getText());
 						JSONArray array = new JSONArray(jsObject);
 
 						for (int i = 0; i < array.size(); i++) {
@@ -251,7 +257,7 @@ public class GwtRequestHelper extends RequestHelper {
 
 		@Override
 		public void onError(com.google.gwt.http.client.Request request,
-							Throwable exception) {
+				Throwable exception) {
 			if (callback != null) {
 				callback.error(exception);
 			}
@@ -269,7 +275,7 @@ public class GwtRequestHelper extends RequestHelper {
 		private ResourceCallback<T> callback;
 
 		public RequestAsyncCallback(ResourceCallback<T> callback,
-									Class<S> clazz, boolean isCollection) {
+				Class<S> clazz, boolean isCollection) {
 			super();
 			this.clazz = clazz;
 			this.isCollection = isCollection;
@@ -283,7 +289,7 @@ public class GwtRequestHelper extends RequestHelper {
 			}
 		}
 
-		@SuppressWarnings({"unchecked", "rawtypes"})
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public void onSuccess(JavaScriptObject result) {
 			Object o = null;
@@ -293,8 +299,8 @@ public class GwtRequestHelper extends RequestHelper {
 					JSONArray array = new JSONArray(result);
 					Collection<S> c = new ArrayList<S>();
 					for (int i = 0; i < array.size(); i++) {
-						JavaScriptObject jsObject = JsonUtils.safeEval(array.get(i)
-								.toString());
+						JavaScriptObject jsObject = JsonUtils.safeEval(array
+								.get(i).toString());
 						S jo = (S) converter.getObject(jsObject);
 						if (jo != null) {
 							c.add(jo);

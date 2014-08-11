@@ -5,14 +5,14 @@ import com.google.gwt.core.client.JavaScriptObject;
 import es.eucm.gleaner.model.TrackData;
 
 public class TrackDataJS extends JavaScriptObject {
-		
-	protected TrackDataJS( ){
-		
+
+	protected TrackDataJS() {
+
 	}
 
 	public final native String getSessionKey() /*-{
-		return this.sessionKey;
-	}-*/;
+												return this.sessionKey;
+												}-*/;
 
 	public final TrackData getTrackData() {
 		return new TrackData(getSessionKey());
