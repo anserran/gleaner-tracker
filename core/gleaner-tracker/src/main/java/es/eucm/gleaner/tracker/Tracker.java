@@ -322,15 +322,6 @@ public class Tracker implements ResourceCallback<TrackData>,
 	}
 
 	/**
-	 * Logs that a phase ends
-	 *
-	 * @param phaseName
-	 */
-	public void phaseEnd(String phaseName) {
-		logic(Events.PHASE_END, phaseName, null, null, null);
-	}
-
-	/**
 	 * Logs a variable update
 	 *
 	 * @param varName  variable name
