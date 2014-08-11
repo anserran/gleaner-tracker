@@ -61,7 +61,7 @@ public class TrackerTest {
 		// Send one trace
 		tracker.gameStart();
 		tracker.flush();
-		assertTrue(tracker.isEverythingSent());
+		assertTrue(tracker.tracesPending());
 		assertEquals(requestHelper.getTraces(), 1);
 		assertEquals(requestHelper.getPosts(), 1);
 		assertEquals(tracker.getLogicQueue().size(), 0);
@@ -90,14 +90,14 @@ public class TrackerTest {
 			tracker.press("", "", 0, 1);
 			totalTraces++;
 		}
-		assertEquals(tracker.getInputQueue().size(), maxTraces - 1);
+		assertEquals(tracker.getTracesQueue().size(), maxTraces - 1);
 		tracker.press("", "", 0, 1);
 		totalTraces++;
-		assertEquals(tracker.getInputQueue().size(), 0);
+		assertEquals(tracker.getTracesQueue().size(), 0);
 
 		assertEquals(requestHelper.getTraces(), totalTraces);
 		assertEquals(requestHelper.getPosts(), 2);
-		assertTrue(tracker.isEverythingSent());
+		assertTrue(tracker.tracesPending());
 	}
 
 	@Test

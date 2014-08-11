@@ -11,7 +11,7 @@ import es.eucm.gleaner.network.requests.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TracesQueue<T extends Trace> implements RequestCallback {
+public class TracesQueue implements RequestCallback {
 
 	private final RequestHelper requestHelper;
 
@@ -33,12 +33,12 @@ public class TracesQueue<T extends Trace> implements RequestCallback {
 	/**
 	 * Stored traces. Some might be sent to the server, others might not
 	 */
-	private List<T> storedTraces;
+	private List<Trace> storedTraces;
 
 	/**
 	 * Aux list to add the traces to send in the next batch
 	 */
-	private List<T> tracesToSend;
+	private List<Trace> tracesToSend;
 
 	/**
 	 * Index of the last trace sent in storedTraces list
@@ -68,8 +68,8 @@ public class TracesQueue<T extends Trace> implements RequestCallback {
 	public TracesQueue(RequestHelper requestHelper, RequestCallback requestCallback) {
 		this.requestHelper = requestHelper;
 		this.requestCallback = requestCallback;
-		this.storedTraces = new ArrayList<T>();
-		this.tracesToSend = new ArrayList<T>();
+		this.storedTraces = new ArrayList<Trace>();
+		this.tracesToSend = new ArrayList<Trace>();
 		this.lastTraceSentIndex = -1;
 		this.lastTraceReceivedIndex = -1;
 		this.maxSize = -1;
@@ -112,7 +112,7 @@ public class TracesQueue<T extends Trace> implements RequestCallback {
 	 *
 	 * @param trace the trace to add
 	 */
-	public synchronized void add(T trace) {
+	public synchronized void add(Trace trace) {
 		storedTraces.add(trace);
 		if (currentMaxSize >= 0 && storedTraces.size() - lastTraceReceivedIndex > currentMaxSize) {
 			flush();
