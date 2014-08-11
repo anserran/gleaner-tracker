@@ -368,6 +368,17 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	}
 
 	/**
+	 * Player has entered in a new zone
+	 * 
+	 * @param zoneId
+	 *            the zone id
+	 */
+	public void zone(String zoneId) {
+		logic(Events.ZONE, zoneId, null, null, null);
+
+	}
+
+	/**
 	 * Stops tracking
 	 */
 	public void stopTracking() {
