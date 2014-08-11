@@ -27,3 +27,4 @@ lostinspaceeditor/
 lostinspacerandom/
 # IntelliJ
 *.iml
+.idea/

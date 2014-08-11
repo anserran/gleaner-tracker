@@ -9,7 +9,6 @@ public class LogicTraceJS extends AbstractTraceJS {
 	}
 
 	public final void set(LogicTrace trace) {
-		super.setRoot(trace);
 		setType(trace.getType());
 		if (trace.getEvent() != null) {
 			setEvent(trace.getEvent());

@@ -204,7 +204,6 @@ public class Tracker implements ResourceCallback<TrackData>,
 			}
 		}
 		if (tracking) {
-			t.setTimeStamp(currentTimeMillis());
 			queue.add(t);
 		}
 	}

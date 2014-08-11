@@ -9,7 +9,6 @@ public class InputTraceJS extends AbstractTraceJS {
 	}
 
 	public final void set(InputTrace trace) {
-		super.setRoot(trace);
 		setType(trace.getType());
 		if (trace.getContext() != null) setContext(trace.getContext());
 		if (trace.getDevice() != null) setDevice(trace.getDevice());
