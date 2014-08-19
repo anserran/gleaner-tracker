@@ -1,14 +1,16 @@
 package es.eucm.gleaner.tracker;
 
-import es.eucm.gleaner.model.RestAPI;
-import es.eucm.gleaner.model.TrackData;
-import es.eucm.gleaner.model.traces.Events;
-import es.eucm.gleaner.model.traces.InputTrace;
-import es.eucm.gleaner.model.traces.InputTrace.Action;
-import es.eucm.gleaner.model.traces.InputTrace.Device;
-import es.eucm.gleaner.model.traces.LogicTrace;
-import es.eucm.gleaner.model.traces.Trace;
+import es.eucm.gleaner.tracker.model.RestAPI;
+import es.eucm.gleaner.tracker.model.TrackData;
+import es.eucm.gleaner.tracker.model.traces.Events;
+import es.eucm.gleaner.tracker.model.traces.InputTrace;
+import es.eucm.gleaner.tracker.model.traces.InputTrace.Action;
+import es.eucm.gleaner.tracker.model.traces.InputTrace.Device;
+import es.eucm.gleaner.tracker.model.traces.LogicTrace;
+import es.eucm.gleaner.tracker.model.traces.Trace;
 import es.eucm.gleaner.network.requests.*;
+
+import java.util.ArrayList;
 
 public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 
@@ -29,10 +31,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 */
 	private String serverUri;
 
-	/**
-	 * Current game key
-	 */
-	private String gameKey;
+	private String trackingCode;
 
 	/**
 	 * Track data
@@ -52,7 +51,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	/**
 	 * Auth token
 	 */
-	private String authToken;
+	private String authorization;
 
 	/**
 	 * Number of retries
@@ -64,12 +63,19 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 */
 	private boolean connecting;
 
+	private ArrayList<ConnectionListener> connectionListeners;
+
 	public Tracker(RequestHelper requestHelper) {
 		this.requestHelper = requestHelper;
 		this.traces = new TracesQueue(requestHelper, this);
+		this.connectionListeners = new ArrayList<ConnectionListener>();
 		this.errors = 0;
 		this.tracking = true;
 		this.connecting = false;
+	}
+
+	public void addConnectionListener(ConnectionListener listener) {
+		connectionListeners.add(listener);
 	}
 
 	/**
@@ -107,23 +113,19 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		return trackData;
 	}
 
-	/**
-	 * @return the auth token to be sent in the authentication header, when the
-	 *         tracker starts the tracking
-	 */
-	public String getAuthToken() {
-		return authToken;
+	public String getAuthorization() {
+		return authorization;
 	}
 
 	/**
-	 * Sets the auth token to be sent in the authentication header, when the
-	 * tracker starts the tracking
+	 * Sets the authorization header to be sent when the tracker starts the
+	 * tracking
 	 * 
-	 * @param authToken
+	 * @param authorization
 	 *            the auth token
 	 */
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
 	}
 
 	/**
@@ -134,11 +136,11 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	}
 
 	/**
-	 * Asks the server to track the game given by the game key
+	 * Asks the server to track the game given by tracking code
 	 */
-	public void startTracking(String gameKey) {
+	public void startTracking(String trackingCode) {
 		this.trackData = null;
-		this.gameKey = gameKey;
+		this.trackingCode = trackingCode;
 		traces.clear();
 		connect();
 	}
@@ -149,9 +151,10 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	private void connect() {
 		if (!connecting) {
 			connecting = true;
-			String trackUrl = serverUri + RestAPI.START + gameKey;
-			requestHelper.url(trackUrl).header("Authorization", getAuthToken())
-					.get(this, TrackData.class, false);
+			String trackUrl = serverUri + RestAPI.START + trackingCode;
+			requestHelper.url(trackUrl)
+					.header("Authorization", getAuthorization())
+					.post(this, TrackData.class, false);
 		}
 	}
 
@@ -279,7 +282,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 * 
 	 * @param event
 	 *            the event identifier. You can use some from
-	 *            {@link es.eucm.gleaner.model.traces.Events}
+	 *            {@link es.eucm.gleaner.tracker.model.traces.Events}
 	 * @param target
 	 *            the target for the event (e.g. the phase in which happens)
 	 * @param value1
@@ -300,7 +303,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 * 
 	 * @param event
 	 *            the event identifier. You can use some from
-	 *            {@link es.eucm.gleaner.model.traces.Events}
+	 *            {@link es.eucm.gleaner.tracker.model.traces.Events}
 	 * @param target
 	 *            the target for the event (e.g. the phase in which happens)
 	 * @param value1
@@ -412,6 +415,9 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		this.traces.setTrackData(trackData);
 		this.traces.setUrl(this.serverUri + RestAPI.TRACK);
 		errors = 0;
+		for (ConnectionListener connectionListener : connectionListeners) {
+			connectionListener.connected(trackData);
+		}
 	}
 
 	@Override
@@ -440,6 +446,12 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 
 	public void setMaxTracesPerQueue(int maxTraces) {
 		traces.setMaxSize(maxTraces);
+	}
+
+	public interface ConnectionListener {
+
+		void connected(TrackData trackData);
+
 	}
 
 }

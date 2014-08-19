@@ -1,7 +1,7 @@
 package es.eucm.gleaner.tracker.conversors;
 
 import es.eucm.gleaner.gwt.network.converters.AbstractJsonConverter;
-import es.eucm.gleaner.model.TrackData;
+import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.data.TrackDataJS;
 
 public class TrackDataConversor extends

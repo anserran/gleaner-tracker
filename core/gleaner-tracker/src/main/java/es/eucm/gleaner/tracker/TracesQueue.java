@@ -1,7 +1,7 @@
 package es.eucm.gleaner.tracker;
 
-import es.eucm.gleaner.model.TrackData;
-import es.eucm.gleaner.model.traces.Trace;
+import es.eucm.gleaner.tracker.model.TrackData;
+import es.eucm.gleaner.tracker.model.traces.Trace;
 import es.eucm.gleaner.network.Header;
 import es.eucm.gleaner.network.requests.Request;
 import es.eucm.gleaner.network.requests.RequestCallback;
@@ -149,7 +149,7 @@ public class TracesQueue implements RequestCallback {
 			}
 			lastTraceSentIndex = storedTraces.size() - 1;
 			requestHelper.url(url)
-					.header(Header.AUTHORIZATION, trackData.getSessionKey())
+					.header(Header.AUTHORIZATION, trackData.getAuthToken())
 					.post(tracesToSend, this);
 		}
 	}

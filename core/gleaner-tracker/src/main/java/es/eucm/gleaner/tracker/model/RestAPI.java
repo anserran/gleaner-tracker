@@ -1,4 +1,4 @@
-package es.eucm.gleaner.model;
+package es.eucm.gleaner.tracker.model;
 
 /**
  * Constants for the GLAS REST API

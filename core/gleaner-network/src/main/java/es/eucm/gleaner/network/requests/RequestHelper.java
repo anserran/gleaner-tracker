@@ -55,7 +55,7 @@ public abstract class RequestHelper {
 	 *            the same as S or not. S could be Object, and T could be
 	 *            List<Object>
 	 */
-	public abstract <S, T> void get(Request request, String uriWithParameters,
+	public abstract <S, T> void send(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection);
 
 	/**
@@ -136,10 +136,10 @@ public abstract class RequestHelper {
 					+ (parameters == null ? "" : "?" + parameters);
 		}
 
-		public <S, T> void get(ResourceCallback<T> callback, Class<S> clazz,
+		public <S, T> void post(ResourceCallback<T> callback, Class<S> clazz,
 				boolean isCollection) {
-			method(Method.GET);
-			RequestHelper.this.get(request, getUriWithParamaters(request),
+			method(Method.POST);
+			RequestHelper.this.send(request, getUriWithParamaters(request),
 					callback, clazz, isCollection);
 		}
 

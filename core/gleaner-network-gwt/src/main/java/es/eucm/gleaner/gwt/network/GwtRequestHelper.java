@@ -63,7 +63,7 @@ public class GwtRequestHelper extends RequestHelper {
 	}
 
 	@Override
-	public <S, T> void get(Request request, String uriWithParameters,
+	public <S, T> void send(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		if (!crossDomain) {
 			request.setHeader(Header.ACCEPT, ContentType.APPLICATION_JSON);

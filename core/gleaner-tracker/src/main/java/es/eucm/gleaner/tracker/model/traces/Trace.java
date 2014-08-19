@@ -1,4 +1,4 @@
-package es.eucm.gleaner.model.traces;
+package es.eucm.gleaner.tracker.model.traces;
 
 public class Trace {
 

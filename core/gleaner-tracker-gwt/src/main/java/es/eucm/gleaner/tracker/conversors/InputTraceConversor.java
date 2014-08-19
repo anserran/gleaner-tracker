@@ -3,7 +3,7 @@ package es.eucm.gleaner.tracker.conversors;
 import com.google.gwt.json.client.JSONObject;
 
 import es.eucm.gleaner.gwt.network.converters.AbstractJsonConverter;
-import es.eucm.gleaner.model.traces.InputTrace;
+import es.eucm.gleaner.tracker.model.traces.InputTrace;
 import es.eucm.gleaner.tracker.data.InputTraceJS;
 
 public class InputTraceConversor extends

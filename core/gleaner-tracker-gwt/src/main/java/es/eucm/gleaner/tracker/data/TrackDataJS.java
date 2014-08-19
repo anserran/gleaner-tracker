@@ -2,7 +2,7 @@ package es.eucm.gleaner.tracker.data;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-import es.eucm.gleaner.model.TrackData;
+import es.eucm.gleaner.tracker.model.TrackData;
 
 public class TrackDataJS extends JavaScriptObject {
 

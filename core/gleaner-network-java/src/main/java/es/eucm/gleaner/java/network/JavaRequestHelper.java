@@ -111,20 +111,20 @@ public class JavaRequestHelper extends RequestHelper {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S, T> void get(Request request, String uriWithParameters,
+	public <S, T> void send(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		WebResource r = client.resource(uriWithParameters);
-		WebResource.Builder b = r.accept(ContentType.APPLICATION_JSON);
-		for (Entry<String, String> h : request.getHeaders().entrySet()) {
-			b.header(h.getKey(), h.getValue());
+		WebResource.Builder builder = r.accept(ContentType.APPLICATION_JSON);
+		for (Entry<String, String> header : request.getHeaders().entrySet()) {
+			builder.header(header.getKey(), header.getValue());
 		}
 		try {
 			Object data = null;
 			if (isCollection) {
 				Collection<S> list = new ArrayList<S>();
-				String s = b.get(String.class);
+				String result = send(request.getMethod(), builder, String.class);
 				Collection<LinkedHashMap<String, Object>> strings = new ArrayList<LinkedHashMap<String, Object>>();
-				strings = gson.fromJson(s, strings.getClass());
+				strings = gson.fromJson(result, strings.getClass());
 				for (LinkedHashMap<String, Object> a : strings) {
 					S object = gson.fromJson(a.toString(), clazz);
 					if (object != null) {
@@ -133,14 +133,27 @@ public class JavaRequestHelper extends RequestHelper {
 				}
 				data = list;
 			} else {
-				data = b.get(clazz);
+				data = send(request.getMethod(), builder, clazz);
 			}
 
 			callback.success((T) data);
 		} catch (Exception e) {
 			callback.error(e);
 		}
+	}
 
+	private <T> T send(String method, WebResource.Builder builder,
+			Class<T> clazz) {
+		if (Method.GET.equals(method)) {
+			return builder.get(clazz);
+		} else if (Method.POST.equals(method)) {
+			return builder.post(clazz);
+		} else if (Method.PUT.equals(method)) {
+			return builder.put(clazz);
+		} else if (Method.DELETE.equals(method)) {
+			return builder.delete(clazz);
+		}
+		return null;
 	}
 
 	@Override

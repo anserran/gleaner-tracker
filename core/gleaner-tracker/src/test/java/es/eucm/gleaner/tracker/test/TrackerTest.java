@@ -1,6 +1,6 @@
 package es.eucm.gleaner.tracker.test;
 
-import es.eucm.gleaner.model.TrackData;
+import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.network.requests.Response;
 import es.eucm.gleaner.tracker.Tracker;
 import org.junit.Before;
@@ -32,7 +32,7 @@ public class TrackerTest {
 		requestHelper.setResource(new TrackData("abc"));
 		tracker.startTracking("000");
 
-		assertEquals(tracker.getTrackData().getSessionKey(), "abc");
+		assertEquals(tracker.getTrackData().getAuthToken(), "abc");
 
 		requestHelper.setState(FakeRequestHelper.BUSY);
 		tracker.startTracking("000");
@@ -50,7 +50,7 @@ public class TrackerTest {
 		requestHelper.setResource(new TrackData("abc"));
 
 		tracker.startTracking("000");
-		assertEquals(tracker.getTrackData().getSessionKey(), "abc");
+		assertEquals(tracker.getTrackData().getAuthToken(), "abc");
 
 		// Send no trace
 		tracker.flush();
@@ -127,7 +127,7 @@ public class TrackerTest {
 		tracker.flush();
 		assertEquals(requestHelper.getPosts(), 1);
 		assertEquals(requestHelper.getTraces(), totalTraces);
-		assertEquals(tracker.getTrackData().getSessionKey(), "abc");
+		assertEquals(tracker.getTrackData().getAuthToken(), "abc");
 		assertEquals(tracker.getTracesQueue().size(), 0);
 
 		tracker.setMaxTracesPerQueue(10);

@@ -1,6 +1,6 @@
 package es.eucm.gleaner.tracker.data;
 
-import es.eucm.gleaner.model.traces.LogicTrace;
+import es.eucm.gleaner.tracker.model.traces.LogicTrace;
 
 public class LogicTraceJS extends AbstractTraceJS {
 

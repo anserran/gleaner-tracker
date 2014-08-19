@@ -1,4 +1,4 @@
-package es.eucm.gleaner.model.traces;
+package es.eucm.gleaner.tracker.model.traces;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

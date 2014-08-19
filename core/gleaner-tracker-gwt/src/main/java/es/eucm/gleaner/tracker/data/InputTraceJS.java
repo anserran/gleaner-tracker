@@ -1,6 +1,6 @@
 package es.eucm.gleaner.tracker.data;
 
-import es.eucm.gleaner.model.traces.InputTrace;
+import es.eucm.gleaner.tracker.model.traces.InputTrace;
 
 public class InputTraceJS extends AbstractTraceJS {
 
