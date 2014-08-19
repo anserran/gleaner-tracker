@@ -377,7 +377,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 *            the zone id
 	 */
 	public void zone(String zoneId) {
-		logic(Events.ZONE, zoneId, null, null, null);
+		logic(Events.ZONE, null, zoneId, null, null);
 
 	}
 

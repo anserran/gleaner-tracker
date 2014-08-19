@@ -15,13 +15,13 @@ public class LogicTraceJS extends AbstractTraceJS {
 		if (trace.getTarget() != null) {
 			setTarget(trace.getTarget());
 		}
-		if (trace.getValue1() != null) {
-			if (trace.getValue1() instanceof Integer) {
-				setValue1Int((Integer) trace.getValue1());
-			} else if (trace.getValue1() instanceof Float) {
-				setValue1Float((Float) trace.getValue1());
+		if (trace.getValue() != null) {
+			if (trace.getValue() instanceof Integer) {
+				setValue1Int((Integer) trace.getValue());
+			} else if (trace.getValue() instanceof Float) {
+				setValue1Float((Float) trace.getValue());
 			} else {
-				setValue1(trace.getValue1());
+				setValue1(trace.getValue());
 			}
 		}
 		if (trace.getValue2() != null) {

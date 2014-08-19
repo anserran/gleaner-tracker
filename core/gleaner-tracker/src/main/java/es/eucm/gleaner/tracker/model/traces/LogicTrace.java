@@ -10,7 +10,7 @@ public class LogicTrace extends Trace {
 
 	private String target;
 
-	private Object value1;
+	private Object value;
 
 	private Object value2;
 
@@ -20,11 +20,11 @@ public class LogicTrace extends Trace {
 
 	}
 
-	public LogicTrace(String event, String target, Object value1,
+	public LogicTrace(String event, String target, Object value,
 			Object value2, Object value3) {
 		this.event = event;
 		this.target = target;
-		this.value1 = value1;
+		this.value = value;
 		this.value2 = value2;
 		this.value3 = value3;
 	}
@@ -37,12 +37,12 @@ public class LogicTrace extends Trace {
 		this.target = target;
 	}
 
-	public Object getValue1() {
-		return value1;
+	public Object getValue() {
+		return value;
 	}
 
-	public void setValue1(Object value1) {
-		this.value1 = value1;
+	public void setValue(Object value) {
+		this.value = value;
 	}
 
 	public Object getValue2() {
