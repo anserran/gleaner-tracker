@@ -381,6 +381,10 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 
 	}
 
+	public void var(String varName, Object value) {
+		logic(Events.VAR_UPDATE, varName, value, null, null);
+	}
+
 	/**
 	 * Stops tracking
 	 */

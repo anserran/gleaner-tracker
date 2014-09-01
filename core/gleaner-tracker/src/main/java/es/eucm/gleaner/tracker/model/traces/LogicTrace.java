@@ -20,8 +20,8 @@ public class LogicTrace extends Trace {
 
 	}
 
-	public LogicTrace(String event, String target, Object value,
-			Object value2, Object value3) {
+	public LogicTrace(String event, String target, Object value, Object value2,
+			Object value3) {
 		this.event = event;
 		this.target = target;
 		this.value = value;
