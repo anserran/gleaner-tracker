@@ -378,11 +378,14 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	 */
 	public void zone(String zoneId) {
 		logic(Events.ZONE, null, zoneId, null, null);
-
 	}
 
 	public void var(String varName, Object value) {
 		logic(Events.VAR_UPDATE, varName, value, null, null);
+	}
+
+	public void choice(String choiceId, String choiceOption) {
+		logic(Events.CHOICE, choiceId, choiceOption, null, null);
 	}
 
 	/**
