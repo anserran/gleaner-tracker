@@ -10,4 +10,5 @@ public class Events {
 	public static final String CHOICE = "choice";
 	public static final String SCORE = "score";
 	public static final String ZONE = "zone";
+	public static final String START = "start";
 }

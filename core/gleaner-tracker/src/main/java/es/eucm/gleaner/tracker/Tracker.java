@@ -388,6 +388,10 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		logic(Events.CHOICE, choiceId, choiceOption, null, null);
 	}
 
+	public void startGameplay() {
+		logic(Events.START, null, null, null, null);
+	}
+
 	/**
 	 * Stops tracking
 	 */
