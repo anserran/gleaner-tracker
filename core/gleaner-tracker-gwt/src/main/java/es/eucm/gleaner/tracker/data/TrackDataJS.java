@@ -10,12 +10,12 @@ public class TrackDataJS extends JavaScriptObject {
 
 	}
 
-	public final native String getSessionKey() /*-{
-												return this.sessionKey;
+	public final native String getAuthToken() /*-{
+												return this.authToken;
 												}-*/;
 
 	public final TrackData getTrackData() {
-		return new TrackData(getSessionKey());
+		return new TrackData(getAuthToken());
 	}
 
 }
