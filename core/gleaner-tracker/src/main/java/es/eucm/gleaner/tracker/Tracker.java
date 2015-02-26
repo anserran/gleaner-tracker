@@ -392,6 +392,14 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		logic(Events.START, null, null, null, null);
 	}
 
+	public void interact(String target) {
+		interact(target, null);
+	}
+
+	public void interact(String target, String value) {
+		logic("interact", target, value, null, null);
+	}
+
 	/**
 	 * Stops tracking
 	 */
