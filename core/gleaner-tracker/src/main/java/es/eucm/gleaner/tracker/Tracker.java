@@ -1,5 +1,6 @@
 package es.eucm.gleaner.tracker;
 
+import es.eucm.gleaner.network.Header;
 import es.eucm.gleaner.tracker.model.RestAPI;
 import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.model.traces.Events;
@@ -153,7 +154,7 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 			connecting = true;
 			String trackUrl = serverUri + RestAPI.START + trackingCode;
 			requestHelper.url(trackUrl)
-					.header("Authorization", getAuthorization())
+					.header(Header.AUTHORIZATION2, getAuthorization())
 					.post(this, TrackData.class, false);
 		}
 	}
