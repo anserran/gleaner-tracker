@@ -17,11 +17,11 @@ public class LogicTraceJS extends AbstractTraceJS {
 		}
 		if (trace.getValue() != null) {
 			if (trace.getValue() instanceof Integer) {
-				setValue1Int((Integer) trace.getValue());
+				setValueInt((Integer) trace.getValue());
 			} else if (trace.getValue() instanceof Float) {
-				setValue1Float((Float) trace.getValue());
+				setValueFloat((Float) trace.getValue());
 			} else {
-				setValue1(trace.getValue());
+				setValue(trace.getValue());
 			}
 		}
 		if (trace.getValue2() != null) {
@@ -56,16 +56,16 @@ public class LogicTraceJS extends AbstractTraceJS {
 														this.target = target;
 														}-*/;
 
-	public final native void setValue1(Object value1) /*-{
-														this.value1 = value1;
+	public final native void setValue(Object value) /*-{
+														this.value = value;
 														}-*/;
 
-	public final native void setValue1Int(int value1) /*-{
-														this.value1 = value1;
+	public final native void setValueInt(int value) /*-{
+														this.value = value;
 														}-*/;
 
-	public final native void setValue1Float(float value1) /*-{
-															this.value1 = value1;
+	public final native void setValueFloat(float value) /*-{
+															this.value = value;
 															}-*/;
 
 	public final native void setValue2(Object value2) /*-{
