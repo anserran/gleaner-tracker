@@ -8,7 +8,7 @@ package es.eucm.gleaner.tracker.model;
  */
 public class RestAPI {
 
-	public static final String TRACK = "track/";
-	public static final String START = "start/";
+	public static final String TRACK = "collector/track/";
+	public static final String START = "collector/start/";
 
 }
