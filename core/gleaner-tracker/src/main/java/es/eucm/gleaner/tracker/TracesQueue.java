@@ -44,7 +44,7 @@ public class TracesQueue implements RequestCallback {
 	/**
 	 * Converts traces to xAPI statements.
 	 */
-	private TracesConverter conversor;
+	private TracesConverter converter;
 
 	/**
 	 * Index of the last trace sent in storedTraces list
@@ -78,12 +78,12 @@ public class TracesQueue implements RequestCallback {
 	private String authorization;
 
 	public TracesQueue(RequestHelper requestHelper,
-			RequestCallback requestCallback) {
+			RequestCallback requestCallback, TracesConverter converter) {
 		this.requestHelper = requestHelper;
 		this.requestCallback = requestCallback;
 		this.storedTraces = new ArrayList<Trace>();
 		this.tracesToSend = new ArrayList<Trace>();
-		this.conversor = new TracesConverter();
+		this.converter = converter;
 		this.lastTraceSentIndex = -1;
 		this.lastTraceReceivedIndex = -1;
 		this.maxSize = -1;
@@ -173,16 +173,16 @@ public class TracesQueue implements RequestCallback {
 			lastTraceSentIndex = storedTraces.size() - 1;
 
 			RequestHelper.Builder reqBuilder = requestHelper.url(url);
-			if (authorization != null) {
+			if (authorization != null && !authorization.isEmpty()) {
 				reqBuilder.header(Header.AUTHORIZATION, authorization);
 			}
-			if (trackData.getAuthToken() != null) {
-				reqBuilder.header(Header.AUTHORIZATION2,
-						trackData.getAuthToken());
+			String authToken = trackData.getAuthToken();
+			if (authToken != null && !authToken.isEmpty()) {
+				reqBuilder.header(Header.AUTHORIZATION2, authToken);
 			}
 			reqBuilder.post(
-					conversor.convert(tracesToSend, trackData.getPlayerName()),
-					this);
+					converter == null ? tracesToSend : converter.convert(
+							tracesToSend, trackData.getPlayerName()), this);
 		}
 	}
 

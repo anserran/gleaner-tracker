@@ -1,6 +1,8 @@
 package es.eucm.gleaner.tracker;
 
 import es.eucm.gleaner.network.Header;
+import es.eucm.gleaner.tracker.converter.TracesConverter;
+import es.eucm.gleaner.tracker.converter.XAPITracesConverter;
 import es.eucm.gleaner.tracker.model.RestAPI;
 import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.model.traces.Events;
@@ -71,9 +73,25 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 
 	private ArrayList<ConnectionListener> connectionListeners;
 
+	/**
+	 * Creates a Tracker with an {@link XAPITracesConverter} that sends xAPI
+	 * statements.
+	 * 
+	 * @param requestHelper
+	 */
 	public Tracker(RequestHelper requestHelper) {
+		this(requestHelper, new XAPITracesConverter());
+	}
+
+	/**
+	 * 
+	 * @param requestHelper
+	 * @param converter
+	 *            if null traces will be sent in raw format.
+	 */
+	public Tracker(RequestHelper requestHelper, TracesConverter converter) {
 		this.requestHelper = requestHelper;
-		this.traces = new TracesQueue(requestHelper, this);
+		this.traces = new TracesQueue(requestHelper, this, converter);
 		this.connectionListeners = new ArrayList<ConnectionListener>();
 		this.errors = 0;
 		this.tracking = true;
@@ -175,11 +193,13 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 			connecting = true;
 			String trackUrl = serverUri + RestAPI.START + trackingCode;
 			RequestHelper.Builder reqBuilder = requestHelper.url(trackUrl);
-			if (getAuthorization() != null) {
-				reqBuilder.header(Header.AUTHORIZATION, getAuthorization());
+			String auth = getAuthorization();
+			if (auth != null && !auth.isEmpty()) {
+				reqBuilder.header(Header.AUTHORIZATION, auth);
 			}
-			if (getAuthorization2() != null) {
-				reqBuilder.header(Header.AUTHORIZATION2, getAuthorization2());
+			String auth2 = getAuthorization2();
+			if (auth2 != null && !auth2.isEmpty()) {
+				reqBuilder.header(Header.AUTHORIZATION2, auth2);
 			}
 			reqBuilder.post(this, TrackData.class, false);
 		}
