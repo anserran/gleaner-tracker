@@ -1,5 +1,6 @@
 package es.eucm.gleaner.tracker;
 
+import es.eucm.gleaner.network.Header;
 import es.eucm.gleaner.tracker.model.RestAPI;
 import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.model.traces.Events;
@@ -49,9 +50,14 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	private int errors;
 
 	/**
-	 * Auth token
+	 * Bearer token
 	 */
 	private String authorization;
+
+	/**
+	 * Auth token
+	 */
+	private String authorization2;
 
 	/**
 	 * Number of retries
@@ -117,15 +123,31 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		return authorization;
 	}
 
+	public String getAuthorization2() {
+		return authorization2;
+	}
+
 	/**
 	 * Sets the authorization header to be sent when the tracker starts the
 	 * tracking
 	 * 
 	 * @param authorization
-	 *            the auth token
+	 *            the bearer token
 	 */
 	public void setAuthorization(String authorization) {
+		traces.setAuthorization(authorization);
 		this.authorization = authorization;
+	}
+
+	/**
+	 * Sets the second authorization header to be sent when the tracker starts
+	 * the tracking
+	 * 
+	 * @param authorization2
+	 *            the auth token
+	 */
+	public void setAuthorization2(String authorization2) {
+		this.authorization2 = authorization2;
 	}
 
 	/**
@@ -152,9 +174,14 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		if (!connecting) {
 			connecting = true;
 			String trackUrl = serverUri + RestAPI.START + trackingCode;
-			requestHelper.url(trackUrl)
-					.header("Authorization", getAuthorization())
-					.post(this, TrackData.class, false);
+			RequestHelper.Builder reqBuilder = requestHelper.url(trackUrl);
+			if (getAuthorization() != null) {
+				reqBuilder.header(Header.AUTHORIZATION, getAuthorization());
+			}
+			if (getAuthorization2() != null) {
+				reqBuilder.header(Header.AUTHORIZATION2, getAuthorization2());
+			}
+			reqBuilder.post(this, TrackData.class, false);
 		}
 	}
 

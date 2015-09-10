@@ -1,5 +1,6 @@
 package es.eucm.gleaner.tracker;
 
+import es.eucm.gleaner.tracker.converter.TracesConverter;
 import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.model.traces.Trace;
 import es.eucm.gleaner.network.Header;
@@ -41,6 +42,11 @@ public class TracesQueue implements RequestCallback {
 	private List<Trace> tracesToSend;
 
 	/**
+	 * Converts traces to xAPI statements.
+	 */
+	private TracesConverter conversor;
+
+	/**
 	 * Index of the last trace sent in storedTraces list
 	 */
 	private int lastTraceSentIndex;
@@ -66,17 +72,34 @@ public class TracesQueue implements RequestCallback {
 	 */
 	private int currentMaxSize;
 
+	/**
+	 * Bearer token
+	 */
+	private String authorization;
+
 	public TracesQueue(RequestHelper requestHelper,
 			RequestCallback requestCallback) {
 		this.requestHelper = requestHelper;
 		this.requestCallback = requestCallback;
 		this.storedTraces = new ArrayList<Trace>();
 		this.tracesToSend = new ArrayList<Trace>();
+		this.conversor = new TracesConverter();
 		this.lastTraceSentIndex = -1;
 		this.lastTraceReceivedIndex = -1;
 		this.maxSize = -1;
 		this.currentMaxSize = maxSize;
 		this.sending = false;
+	}
+
+	/**
+	 * Sets the authorization header to be sent when the tracker starts the
+	 * tracking
+	 * 
+	 * @param authorization
+	 *            the bearer token
+	 */
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
 	}
 
 	/**
@@ -148,9 +171,18 @@ public class TracesQueue implements RequestCallback {
 				tracesToSend.add(storedTraces.get(i));
 			}
 			lastTraceSentIndex = storedTraces.size() - 1;
-			requestHelper.url(url)
-					.header(Header.AUTHORIZATION, trackData.getAuthToken())
-					.post(tracesToSend, this);
+
+			RequestHelper.Builder reqBuilder = requestHelper.url(url);
+			if (authorization != null) {
+				reqBuilder.header(Header.AUTHORIZATION, authorization);
+			}
+			if (trackData.getAuthToken() != null) {
+				reqBuilder.header(Header.AUTHORIZATION2,
+						trackData.getAuthToken());
+			}
+			reqBuilder.post(
+					conversor.convert(tracesToSend, trackData.getPlayerName()),
+					this);
 		}
 	}
 
