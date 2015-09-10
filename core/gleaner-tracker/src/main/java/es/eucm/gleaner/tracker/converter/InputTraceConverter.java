@@ -12,7 +12,7 @@ import java.util.Map;
  * Transforms {@link InputTrace}s into {@link XAPIObject}s.
  */
 public class InputTraceConverter implements
-		TracesConverter.TraceConversor<InputTrace> {
+		XAPITracesConverter.XAPIConverter<InputTrace> {
 
 	@Override
 	public XAPIObject convert(InputTrace trace, String playerName) {

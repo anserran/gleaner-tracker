@@ -13,7 +13,7 @@ import java.util.Map;
  * 
  */
 public class LogicTraceConverter implements
-		TracesConverter.TraceConversor<LogicTrace> {
+		XAPITracesConverter.XAPIConverter<LogicTrace> {
 
 	@Override
 	public XAPIObject convert(LogicTrace trace, String playerName) {
