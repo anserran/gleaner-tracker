@@ -72,11 +72,6 @@ public class TracesQueue implements RequestCallback {
 	 */
 	private int currentMaxSize;
 
-	/**
-	 * Bearer token
-	 */
-	private String authorization;
-
 	public TracesQueue(RequestHelper requestHelper,
 			RequestCallback requestCallback, TracesConverter converter) {
 		this.requestHelper = requestHelper;
@@ -89,17 +84,6 @@ public class TracesQueue implements RequestCallback {
 		this.maxSize = -1;
 		this.currentMaxSize = maxSize;
 		this.sending = false;
-	}
-
-	/**
-	 * Sets the authorization header to be sent when the tracker starts the
-	 * tracking
-	 * 
-	 * @param authorization
-	 *            the bearer token
-	 */
-	public void setAuthorization(String authorization) {
-		this.authorization = authorization;
 	}
 
 	/**
@@ -173,12 +157,9 @@ public class TracesQueue implements RequestCallback {
 			lastTraceSentIndex = storedTraces.size() - 1;
 
 			RequestHelper.Builder reqBuilder = requestHelper.url(url);
-			if (authorization != null && !authorization.isEmpty()) {
-				reqBuilder.header(Header.AUTHORIZATION, authorization);
-			}
 			String authToken = trackData.getAuthToken();
 			if (authToken != null && !authToken.isEmpty()) {
-				reqBuilder.header(Header.AUTHORIZATION2, authToken);
+				reqBuilder.header(Header.AUTHORIZATION, authToken);
 			}
 			reqBuilder.post(
 					converter == null ? tracesToSend : converter.convert(
