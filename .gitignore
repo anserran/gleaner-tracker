@@ -13,6 +13,7 @@
 # Others #
 target/
 *.bat
+*.versionsBackup
 
 # Gwt #
 gwt-unitCache

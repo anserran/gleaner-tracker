@@ -57,11 +57,6 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 	private String authorization;
 
 	/**
-	 * Auth token
-	 */
-	private String authorization2;
-
-	/**
 	 * Number of retries
 	 */
 	private int retry;
@@ -141,31 +136,15 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 		return authorization;
 	}
 
-	public String getAuthorization2() {
-		return authorization2;
-	}
-
 	/**
 	 * Sets the authorization header to be sent when the tracker starts the
 	 * tracking
 	 * 
 	 * @param authorization
-	 *            the bearer token
-	 */
-	public void setAuthorization(String authorization) {
-		traces.setAuthorization(authorization);
-		this.authorization = authorization;
-	}
-
-	/**
-	 * Sets the second authorization header to be sent when the tracker starts
-	 * the tracking
-	 * 
-	 * @param authorization2
 	 *            the auth token
 	 */
-	public void setAuthorization2(String authorization2) {
-		this.authorization2 = authorization2;
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
 	}
 
 	/**
@@ -196,10 +175,6 @@ public class Tracker implements ResourceCallback<TrackData>, RequestCallback {
 			String auth = getAuthorization();
 			if (auth != null && !auth.isEmpty()) {
 				reqBuilder.header(Header.AUTHORIZATION, auth);
-			}
-			String auth2 = getAuthorization2();
-			if (auth2 != null && !auth2.isEmpty()) {
-				reqBuilder.header(Header.AUTHORIZATION2, auth2);
 			}
 			reqBuilder.post(this, TrackData.class, false);
 		}
