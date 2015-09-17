@@ -69,12 +69,12 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>core/gleaner-network</module>
-				<module>core/gleaner-network-java</module>
-				<module>core/gleaner-network-gwt</module>
-				<module>core/gleaner-tracker</module>
-				<module>core/gleaner-tracker-java</module>
-				<module>core/gleaner-tracker-gwt</module>
+				<module>network</module>
+				<module>network-java</module>
+				<module>network-gwt</module>
+				<module>tracker</module>
+				<module>tracker-java</module>
+				<module>tracker-gwt</module>
 			</modules>
 		</profile>
 	</profiles>
