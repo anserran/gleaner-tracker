@@ -42,7 +42,7 @@ public class FakeRequestHelper extends RequestHelper {
 	}
 
 	@Override
-	public <S, T> void send(Request request, String uriWithParameters,
+	public <S, T> void getResource(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		switch (state) {
 		case NORMAL:
@@ -60,7 +60,7 @@ public class FakeRequestHelper extends RequestHelper {
 	}
 
 	@Override
-	public String getJsonData(Object element) {
+	public String toJson(Object element) {
 		return gson.toJson(element);
 	}
 

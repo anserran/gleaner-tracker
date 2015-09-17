@@ -28,10 +28,6 @@ public class JavaRequestHelper extends RequestHelper {
 	private static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
-	public JavaRequestHelper() {
-		super();
-	}
-
 	@Override
 	public void send(Request request, String uriWithParameters,
 			RequestCallback callback) {
@@ -80,13 +76,12 @@ public class JavaRequestHelper extends RequestHelper {
 			stream = new BufferedReader(new InputStreamReader(
 					conn.getInputStream(), charset));
 
-			if (stream != null) {
-				String data = null;
-				for (String line; (line = stream.readLine()) != null;) {
-					data += line + LINE_SEPARATOR;
-				}
-				response.setContent(data);
+			String data = null;
+			for (String line; (line = stream.readLine()) != null;) {
+				data += line + LINE_SEPARATOR;
 			}
+			response.setContent(data);
+
 			if (callback != null)
 				callback.success(request, response);
 
@@ -111,7 +106,7 @@ public class JavaRequestHelper extends RequestHelper {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S, T> void send(Request request, String uriWithParameters,
+	public <S, T> void getResource(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
 		WebResource r = client.resource(uriWithParameters);
 		WebResource.Builder builder = r.accept(ContentType.APPLICATION_JSON);
@@ -119,7 +114,7 @@ public class JavaRequestHelper extends RequestHelper {
 			builder.header(header.getKey(), header.getValue());
 		}
 		try {
-			Object data = null;
+			Object data;
 			if (isCollection) {
 				Collection<S> list = new ArrayList<S>();
 				String result = send(request.getMethod(), builder, String.class);
@@ -166,7 +161,7 @@ public class JavaRequestHelper extends RequestHelper {
 		}
 	}
 
-	public String getJsonData(Object element) {
+	public String toJson(Object element) {
 		return gson.toJson(element);
 	}
 

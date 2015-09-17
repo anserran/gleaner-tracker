@@ -15,7 +15,6 @@ import java.util.Map.Entry;
 public abstract class RequestHelper {
 
 	public RequestHelper() {
-
 	}
 
 	public RequestHelper.Builder url(String url) {
@@ -36,7 +35,7 @@ public abstract class RequestHelper {
 			RequestCallback callback);
 
 	/**
-	 * Performs a request over a resources
+	 * Performs a request tha responses with a resource
 	 * 
 	 * @param request
 	 *            the request
@@ -55,8 +54,9 @@ public abstract class RequestHelper {
 	 *            the same as S or not. S could be Object, and T could be
 	 *            List<Object>
 	 */
-	public abstract <S, T> void send(Request request, String uriWithParameters,
-			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection);
+	public abstract <S, T> void getResource(Request request,
+			String uriWithParameters, ResourceCallback<T> callback,
+			Class<S> clazz, boolean isCollection);
 
 	/**
 	 * Encodes a string in the given charset
@@ -70,13 +70,16 @@ public abstract class RequestHelper {
 	public abstract String encode(String string, String charset);
 
 	/**
-	 * Converts the given element into a JSON string representing it
-	 * 
-	 * @param element
-	 *            the element
-	 * @return the JSON string
+	 * @return the string encoded with UTF-8
 	 */
-	public abstract String getJsonData(Object element);
+	public String encode(String string) {
+		return encode(string, CharSet.UTF8);
+	}
+
+	/**
+	 * @return the JSON representation of the object
+	 */
+	public abstract String toJson(Object o);
 
 	public class Builder {
 
@@ -103,7 +106,7 @@ public abstract class RequestHelper {
 		}
 
 		public Builder data(Object entity) {
-			request.setEntity(getJsonData(entity));
+			request.setEntity(toJson(entity));
 			return this;
 		}
 
@@ -139,8 +142,9 @@ public abstract class RequestHelper {
 		public <S, T> void post(ResourceCallback<T> callback, Class<S> clazz,
 				boolean isCollection) {
 			method(Method.POST);
-			RequestHelper.this.send(request, getUriWithParamaters(request),
-					callback, clazz, isCollection);
+			RequestHelper.this.getResource(request,
+					getUriWithParamaters(request), callback, clazz,
+					isCollection);
 		}
 
 		public void post(Object element) {
