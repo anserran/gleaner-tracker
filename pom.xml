@@ -75,6 +75,7 @@
 				<module>tracker</module>
 				<module>tracker-java</module>
 				<module>tracker-gwt</module>
+				<module>xapi</module>
 			</modules>
 		</profile>
 	</profiles>

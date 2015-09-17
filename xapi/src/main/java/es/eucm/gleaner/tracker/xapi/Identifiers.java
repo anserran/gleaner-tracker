@@ -1,4 +1,4 @@
-package es.eucm.gleaner.tracker.converter;
+package es.eucm.gleaner.tracker.xapi;
 
 public interface Identifiers {
 

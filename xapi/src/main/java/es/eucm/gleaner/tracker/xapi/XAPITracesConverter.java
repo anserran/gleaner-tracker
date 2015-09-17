@@ -1,4 +1,4 @@
-package es.eucm.gleaner.tracker.converter;
+package es.eucm.gleaner.tracker.xapi;
 
 import es.eucm.gleaner.tracker.model.traces.InputTrace;
 import es.eucm.gleaner.tracker.model.traces.LogicTrace;

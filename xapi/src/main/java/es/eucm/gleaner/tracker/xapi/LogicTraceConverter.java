@@ -1,7 +1,7 @@
-package es.eucm.gleaner.tracker.converter;
+package es.eucm.gleaner.tracker.xapi;
 
 import es.eucm.gleaner.tracker.model.traces.Events;
-import es.eucm.gleaner.tracker.model.traces.InputTrace;
+import es.eucm.gleaner.tracker.model.traces.LogicTrace;
 import es.eucm.gleaner.tracker.model.traces.xapi.*;
 
 import java.lang.Object;
@@ -9,13 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Transforms {@link InputTrace}s into {@link XAPIObject}s.
+ * Transforms {@link LogicTrace}s into {@link XAPIObject}s.
+ * 
  */
-public class InputTraceConverter implements
-		XAPITracesConverter.XAPIConverter<InputTrace> {
+public class LogicTraceConverter implements
+		XAPITracesConverter.XAPIConverter<LogicTrace> {
 
 	@Override
-	public XAPIObject convert(InputTrace trace, String playerName) {
+	public XAPIObject convert(LogicTrace trace, String playerName) {
 		String event = trace.getEvent();
 		String verbString = Events.toVerb.get(event);
 
@@ -35,8 +36,8 @@ public class InputTraceConverter implements
 		if (trace.getTarget() != null) {
 			extensions.put("target", trace.getTarget());
 		}
-		if (trace.getValue1() != null) {
-			extensions.put("value1", trace.getValue1());
+		if (trace.getValue() != null) {
+			extensions.put("value", trace.getValue());
 		}
 		if (trace.getValue2() != null) {
 			extensions.put("value2", trace.getValue2());
