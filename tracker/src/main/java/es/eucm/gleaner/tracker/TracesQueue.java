@@ -1,13 +1,11 @@
 package es.eucm.gleaner.tracker;
 
-import es.eucm.gleaner.tracker.converter.TracesConverter;
-import es.eucm.gleaner.tracker.model.TrackData;
-import es.eucm.gleaner.tracker.model.traces.Trace;
 import es.eucm.gleaner.network.Header;
 import es.eucm.gleaner.network.requests.Request;
 import es.eucm.gleaner.network.requests.RequestCallback;
 import es.eucm.gleaner.network.requests.RequestHelper;
 import es.eucm.gleaner.network.requests.Response;
+import es.eucm.gleaner.tracker.model.TrackData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +32,12 @@ public class TracesQueue implements RequestCallback {
 	/**
 	 * Stored traces. Some might be sent to the server, others might not
 	 */
-	private List<Trace> storedTraces;
+	private List<Object> storedTraces;
 
 	/**
 	 * Aux list to add the traces to send in the next batch
 	 */
-	private List<Trace> tracesToSend;
-
-	/**
-	 * Converts traces to xAPI statements.
-	 */
-	private TracesConverter converter;
+	private List<Object> tracesToSend;
 
 	/**
 	 * Index of the last trace sent in storedTraces list
@@ -73,12 +66,11 @@ public class TracesQueue implements RequestCallback {
 	private int currentMaxSize;
 
 	public TracesQueue(RequestHelper requestHelper,
-			RequestCallback requestCallback, TracesConverter converter) {
+			RequestCallback requestCallback) {
 		this.requestHelper = requestHelper;
 		this.requestCallback = requestCallback;
-		this.storedTraces = new ArrayList<Trace>();
-		this.tracesToSend = new ArrayList<Trace>();
-		this.converter = converter;
+		this.storedTraces = new ArrayList<Object>();
+		this.tracesToSend = new ArrayList<Object>();
 		this.lastTraceSentIndex = -1;
 		this.lastTraceReceivedIndex = -1;
 		this.maxSize = -1;
@@ -123,7 +115,7 @@ public class TracesQueue implements RequestCallback {
 	 * @param trace
 	 *            the trace to add
 	 */
-	public synchronized void add(Trace trace) {
+	public synchronized void add(Object trace) {
 		storedTraces.add(trace);
 		if (currentMaxSize >= 0
 				&& storedTraces.size() - lastTraceReceivedIndex > currentMaxSize) {
@@ -161,9 +153,7 @@ public class TracesQueue implements RequestCallback {
 			if (authToken != null && !authToken.isEmpty()) {
 				reqBuilder.header(Header.AUTHORIZATION, authToken);
 			}
-			reqBuilder.post(
-					converter == null ? tracesToSend : converter.convert(
-							tracesToSend, trackData.getPlayerName()), this);
+			reqBuilder.post(tracesToSend, this);
 		}
 	}
 

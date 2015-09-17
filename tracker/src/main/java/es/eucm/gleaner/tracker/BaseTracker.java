@@ -6,16 +6,16 @@ import es.eucm.gleaner.network.requests.RequestCallback;
 import es.eucm.gleaner.network.requests.RequestHelper;
 import es.eucm.gleaner.network.requests.ResourceCallback;
 import es.eucm.gleaner.network.requests.Response;
-import es.eucm.gleaner.tracker.converter.TracesConverter;
-import es.eucm.gleaner.tracker.converter.XAPITracesConverter;
 import es.eucm.gleaner.tracker.model.RestAPI;
 import es.eucm.gleaner.tracker.model.TrackData;
 import es.eucm.gleaner.tracker.model.traces.Events;
 import es.eucm.gleaner.tracker.model.traces.Trace;
+import es.eucm.gleaner.tracker.model.traces.TraceConverter;
 
 import java.util.ArrayList;
 
-public class BaseTracker implements ResourceCallback<TrackData>, RequestCallback {
+public class BaseTracker implements ResourceCallback<TrackData>,
+		RequestCallback {
 
 	public static final int RETRIES = 10;
 
@@ -68,25 +68,16 @@ public class BaseTracker implements ResourceCallback<TrackData>, RequestCallback
 
 	private ArrayList<ConnectionListener> connectionListeners;
 
-	/**
-	 * Creates a Tracker with an {@link XAPITracesConverter} that sends xAPI
-	 * statements.
-	 * 
-	 * @param requestHelper
-	 */
+	private TraceConverter converter;
+
 	public BaseTracker(RequestHelper requestHelper) {
-		this(requestHelper, new XAPITracesConverter());
+		this(requestHelper, null);
 	}
 
-	/**
-	 * 
-	 * @param requestHelper
-	 * @param converter
-	 *            if null traces will be sent in raw format.
-	 */
-	public BaseTracker(RequestHelper requestHelper, TracesConverter converter) {
+	public BaseTracker(RequestHelper requestHelper, TraceConverter converter) {
 		this.requestHelper = requestHelper;
-		this.traces = new TracesQueue(requestHelper, this, converter);
+		this.traces = new TracesQueue(requestHelper, this);
+		this.converter = converter;
 		this.connectionListeners = new ArrayList<ConnectionListener>();
 		this.errors = 0;
 		this.tracking = true;
@@ -201,7 +192,7 @@ public class BaseTracker implements ResourceCallback<TrackData>, RequestCallback
 			}
 		}
 		if (tracking) {
-			traces.add(trace);
+			traces.add(converter == null ? trace : converter.convert(trace));
 		}
 	}
 
