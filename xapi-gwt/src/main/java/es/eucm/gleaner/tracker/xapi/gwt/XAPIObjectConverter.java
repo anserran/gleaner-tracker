@@ -1,4 +1,4 @@
-package es.eucm.gleaner.tracker.conversors;
+package es.eucm.gleaner.tracker.xapi.gwt;
 
 import com.google.gwt.json.client.JSONObject;
 import es.eucm.gleaner.gwt.network.converters.JsonConverter;

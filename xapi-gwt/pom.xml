@@ -10,7 +10,7 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>gleaner-tracker-xapi</artifactId>
+    <artifactId>gleaner-tracker-xapi-gwt</artifactId>
     <packaging>jar</packaging>
     <repositories>
         <repository>
@@ -29,13 +29,25 @@
     <dependencies>
         <dependency>
             <groupId>es.e-ucm.gleaner</groupId>
-            <artifactId>gleaner-tracker</artifactId>
+            <artifactId>gleaner-tracker-xapi</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>es.e-ucm.gleaner</groupId>
+            <artifactId>gleaner-tracker-xapi</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>gov.adlnet.xapi</groupId>
             <artifactId>xapi</artifactId>
             <version>0.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.adlnet.xapi</groupId>
+            <artifactId>xapi</artifactId>
+            <version>0.1.4</version>
+            <classifier>sources</classifier>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

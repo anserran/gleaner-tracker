@@ -5,7 +5,7 @@ import com.google.gwt.core.client.JsonUtils;
 
 /**
  * Converts and object into a JavaScriptObject
- *
+ * 
  * @param <S>
  *            the class of the original object
  * @param <T>
@@ -22,7 +22,7 @@ public abstract class JsonConverter<S, T extends JavaScriptObject> {
 
 	/**
 	 * Converts a javascript object into a more specific javascript object
-	 *
+	 * 
 	 * @param object
 	 *            the javascript object
 	 * @return a new javascript object with the desired class
@@ -33,7 +33,7 @@ public abstract class JsonConverter<S, T extends JavaScriptObject> {
 
 	/**
 	 * Converts the object into json
-	 *
+	 * 
 	 * @param object
 	 *            the object
 	 * @return the JSON
@@ -42,7 +42,7 @@ public abstract class JsonConverter<S, T extends JavaScriptObject> {
 
 	/**
 	 * Converts the javascript object into the original object
-	 *
+	 * 
 	 * @param jsObject
 	 *            the javascript object
 	 * @return the original object

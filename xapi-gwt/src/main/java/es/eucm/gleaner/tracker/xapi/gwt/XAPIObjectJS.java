@@ -1,4 +1,4 @@
-package es.eucm.gleaner.tracker.data;
+package es.eucm.gleaner.tracker.xapi.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import es.eucm.gleaner.tracker.model.traces.InputTrace;

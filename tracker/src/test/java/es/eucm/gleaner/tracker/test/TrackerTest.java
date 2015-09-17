@@ -86,11 +86,11 @@ public class TrackerTest {
 
 		tracker.setMaxTracesPerQueue(maxTraces);
 		for (int i = 0; i < maxTraces - 1; i++) {
-			tracker.trace("", "", new int[]{0, 1});
+			tracker.trace("", "", new int[] { 0, 1 });
 			totalTraces++;
 		}
 		assertEquals(tracker.getTracesQueue().size(), maxTraces - 1);
-		tracker.trace("", "", new int[]{0, 1});
+		tracker.trace("", "", new int[] { 0, 1 });
 		totalTraces++;
 		assertEquals(tracker.getTracesQueue().size(), 0);
 
