@@ -8,8 +8,8 @@ import es.eucm.gleaner.tracker.model.traces.xapi.XAPIObject;
 
 public class GwtTracker extends Tracker {
 
-	public GwtTracker(boolean crossDomain) {
-		super(new GwtRequestHelper(crossDomain));
+	public GwtTracker() {
+		super(new GwtRequestHelper());
 		GwtRequestHelper rh = (GwtRequestHelper) super.requestHelper;
 		rh.addConverter(TrackData.class, new TrackDataConversor());
 		rh.addConverter(XAPIObject.class, new XAPIObjectConverter());

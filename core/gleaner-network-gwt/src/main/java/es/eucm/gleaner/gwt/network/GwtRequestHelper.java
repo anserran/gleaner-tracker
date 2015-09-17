@@ -6,13 +6,16 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import es.eucm.gleaner.gwt.network.converters.JsonConverter;
 import es.eucm.gleaner.network.ContentType;
 import es.eucm.gleaner.network.Header;
 import es.eucm.gleaner.network.Method;
-import es.eucm.gleaner.network.requests.*;
+import es.eucm.gleaner.network.requests.Request;
+import es.eucm.gleaner.network.requests.RequestCallback;
+import es.eucm.gleaner.network.requests.RequestHelper;
+import es.eucm.gleaner.network.requests.ResourceCallback;
+import es.eucm.gleaner.network.requests.Response;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,15 +34,6 @@ public class GwtRequestHelper extends RequestHelper {
 	private final Map<Class<?>, JsonConverter<?, ?>> converters = new HashMap<Class<?>, JsonConverter<?, ?>>();
 
 	/**
-	 * If requests are cross domain
-	 */
-	private boolean crossDomain;
-
-	public GwtRequestHelper(boolean crossDomain) {
-		this.crossDomain = crossDomain;
-	}
-
-	/**
 	 * Adds a json converter
 	 * 
 	 * @param clazz
@@ -54,25 +48,16 @@ public class GwtRequestHelper extends RequestHelper {
 	@Override
 	public void send(Request request, String uriWithParameters,
 			RequestCallback callback) {
-		if (!crossDomain) {
-			send2(request, uriWithParameters, new GeneralRequestCallback(
-					request, callback));
-		} else {
-			sendCrossDomain(request, uriWithParameters, callback);
-		}
+		send(request, uriWithParameters, new GeneralRequestCallback(request,
+				callback));
 	}
 
 	@Override
-	public <S, T> void send(Request request, String uriWithParameters,
+	public <S, T> void getResource(Request request, String uriWithParameters,
 			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
-		if (!crossDomain) {
-			request.setHeader(Header.ACCEPT, ContentType.APPLICATION_JSON);
-			send2(request, uriWithParameters,
-					new ResourceRequestCallback<S, T>(callback, clazz,
-							isCollection));
-		} else {
-			sendCrossDomain(uriWithParameters, callback, clazz, isCollection);
-		}
+		request.setHeader(Header.ACCEPT, ContentType.APPLICATION_JSON);
+		send(request, uriWithParameters, new ResourceRequestCallback<S, T>(
+				callback, clazz, isCollection));
 	}
 
 	/**
@@ -85,7 +70,7 @@ public class GwtRequestHelper extends RequestHelper {
 	 * @param requestCallback
 	 *            the callback
 	 */
-	private void send2(Request request, String uriWithParameters,
+	private void send(Request request, String uriWithParameters,
 			com.google.gwt.http.client.RequestCallback requestCallback) {
 		RequestBuilder builder = new RequestBuilder(
 				getMethod(request.getMethod()), uriWithParameters);
@@ -99,22 +84,8 @@ public class GwtRequestHelper extends RequestHelper {
 		try {
 			builder.sendRequest(data, requestCallback);
 		} catch (RequestException e) {
-			if (requestCallback != null)
-				requestCallback.onError(null, e);
+			requestCallback.onError(null, e);
 		}
-	}
-
-	private void sendCrossDomain(Request request, String uriWithParameters,
-			RequestCallback callback) {
-		// XXX sendCrossDomain
-	}
-
-	private <T, S> void sendCrossDomain(String uriWithParameters,
-			ResourceCallback<T> callback, Class<S> clazz, boolean isCollection) {
-		JsonpRequestBuilder builder = new JsonpRequestBuilder();
-		builder.requestObject(uriWithParameters,
-				new RequestAsyncCallback<S, T>(callback, clazz, isCollection));
-
 	}
 
 	@Override
@@ -124,7 +95,7 @@ public class GwtRequestHelper extends RequestHelper {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public String getJsonData(Object element) {
+	public String toJson(Object element) {
 		if (element instanceof Collection) {
 			String data = "[";
 			Collection c = (Collection) element;
